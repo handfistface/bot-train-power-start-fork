@@ -1,0 +1,9 @@
+{
+  "name": "bot-train-power-start",
+  "version": "1.1.1",
+  "title": "Bot Train Power Start",
+  "author": "_",
+  "factorio_version": "2.1",
+  "dependencies": ["base >= 2.1"],
+  "description": "Provides an infinity storage chest with infinite materials to set up bot, train and power networks when starting a new game. Bots are able to pick up and drop items from the chest. Provides: (elevated) rails, rail signals, train stops, locomotives, fluid and cargo wagons, pumps, substations, logistic chests, arithmetic/decider/selector/constant combinators, roboports, construction and logistic bots. If used with pY then mk01 equivalent equipment is provided instead."
+}
