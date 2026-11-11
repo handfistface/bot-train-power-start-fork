@@ -50,8 +50,12 @@ jobs:
         shell: bash
         run: |
           mkdir -p release
-          cd Src
-          zip -r "../release/${ARCHIVE_NAME}" .
+          staging_dir="release/${MOD_NAME}"
+          rm -rf "$staging_dir"
+          mkdir -p "$staging_dir"
+          cp -a Src/. "$staging_dir/"
+          cd release
+          zip -r "${ARCHIVE_NAME}" "${MOD_NAME}"
 
       - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
