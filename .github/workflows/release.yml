@@ -1,0 +1,49 @@
+name: Release Mod
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Read mod metadata
+        id: meta
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          info = json.loads(Path('Src/info.json').read_text())
+          name = info['name']
+          version = info['version']
+          archive_name = f"{name}_{version}.zip"
+
+          with open(Path(os.environ['GITHUB_ENV']), 'a', encoding='utf-8') as env_file:
+              env_file.write(f"MOD_NAME={name}\n")
+              env_file.write(f"MOD_VERSION={version}\n")
+              env_file.write(f"ARCHIVE_NAME={archive_name}\n")
+          PY
+
+      - name: Build zip archive
+        shell: bash
+        run: |
+          mkdir -p release
+          cd Src
+          zip -r "../release/${ARCHIVE_NAME}" .
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/${{ env.ARCHIVE_NAME }}
+          generate_release_notes: true
